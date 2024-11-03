@@ -56,5 +56,5 @@ title: All Songs Details
     release_year in ${inputs.release_year_filter.value}
 ```
 
-<DataTable data={details} rows=all/>
+<DataTable data={details} rows=all search=true />
 
