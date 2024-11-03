@@ -1,0 +1,11 @@
+# This file was automatically generated
+name: needful_things
+type: duckdb
+options:
+  filename: needful_things.duckdb
+
+name: arashi_songs
+type: gsheets
+options: {}
+sheets:
+  id: 1o5EfH0DLmPnn8qWd1qBGeJgsfSrUTPoPmBFbQoXrpE8
