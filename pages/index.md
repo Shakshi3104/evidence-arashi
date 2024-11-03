@@ -88,6 +88,7 @@ Single: <Value data={play_count_type_summary} column=song_count row=2 fmt=num0 /
 
 <Dropdown 
   name=release_type_concert
+  title="Release Type"
   multiple=true
   selectAllByDefault=true
 >
@@ -121,6 +122,7 @@ Single: <Value data={play_count_type_summary} column=song_count row=2 fmt=num0 /
 
 <Dropdown 
   name=release_type
+  title="Release Type"
   multiple=true
   selectAllByDefault=true
 >
