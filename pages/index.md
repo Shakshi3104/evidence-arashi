@@ -1,56 +1,151 @@
 ---
-title: Welcome to Evidence
+title: ARASHI Songs
 ---
 
-<Details title='How to edit this page'>
+<Details title='What is this?'>
 
-  This page can be found in your project at `/pages/index.md`. Make a change to the markdown file and save it to see the change take effect in your browser.
+  This is a dashboard about ARASHI songs, such as song play counts and DVD/Blu-ray recordings.
 </Details>
 
-```sql categories
+```sql songs_summary
   select
-      category
-  from needful_things.orders
-  group by category
+      COUNT(曲名) as song_count
+  from arashi_songs.arashi_songs_20241103_0639
 ```
 
-<Dropdown data={categories} name=category value=category>
-    <DropdownOption value="%" valueLabel="All Categories"/>
+```sql songs_type_summary
+  select
+      COUNT(曲名) as song_count,
+      タイプ as release_type
+  from arashi_songs.arashi_songs_20241103_0639
+  group by release_type
+```
+
+```sql play_count_summary
+  select
+      SUM(再生回数) as play_count
+  from arashi_songs.arashi_songs_20241103_0639
+```
+
+```sql play_count_type_summary
+  select
+      SUM(再生回数) as song_count,
+      タイプ as release_type
+  from arashi_songs.arashi_songs_20241103_0639
+  group by release_type
+```
+
+```sql rap_songs_summary
+  select
+      COUNT(曲名) as song_count
+  from arashi_songs.arashi_songs_20241103_0639
+  where
+    クレジット like '%SHOW%' or 
+    クレジット like '%櫻井翔%' or 
+    クレジット like '%Sho Sakurai%'
+```
+
+```sql rap_songs_type_summary
+  select
+      COUNT(曲名) as song_count,
+      タイプ as release_type
+  from arashi_songs.arashi_songs_20241103_0639
+  where
+    クレジット like '%SHOW%' or 
+    クレジット like '%櫻井翔%' or 
+    クレジット like '%Sho Sakurai%'
+  group by release_type
+```
+
+## Summary
+
+<BigValue
+  data={songs_summary}
+  value=song_count
+  title="Songs"
+/>
+
+Single: <Value data={songs_type_summary} column=song_count row=0 />, c/w: <Value data={songs_type_summary} column=song_count row=1 />, Album: <Value data={songs_type_summary} column=song_count row=2 />
+
+<BigValue
+  data={rap_songs_summary}
+  value=song_count
+  title="Sakurap Songs"
+/>
+
+Single: <Value data={rap_songs_type_summary} column=song_count row=0 />, c/w: <Value data={rap_songs_type_summary} column=song_count row=1 />, Album: <Value data={rap_songs_type_summary} column=song_count row=2 />
+
+<BigValue
+  data={play_count_summary}
+  value=play_count
+  title="Play Count"
+  fmt=num0
+/>
+
+Single: <Value data={play_count_type_summary} column=song_count row=2 fmt=num0 />, c/w: <Value data={play_count_type_summary} column=song_count row=1 fmt=num0 />, Album: <Value data={play_count_type_summary} column=song_count row=0 fmt=num0 />
+
+## Sing in Concert Top 20
+
+<Dropdown 
+  name=release_type_concert
+  multiple=true
+  selectAllByDefault=true
+>
+    <DropdownOption valueLabel="Single" value="シングル" />
+    <DropdownOption valueLabel="C/W" value="カップリング" />
+    <DropdownOption valueLabel="Album" value="アルバム" />
 </Dropdown>
 
-<Dropdown name=year>
-    <DropdownOption value=% valueLabel="All Years"/>
-    <DropdownOption value=2019/>
-    <DropdownOption value=2020/>
-    <DropdownOption value=2021/>
-</Dropdown>
-
-```sql orders_by_category
-  select 
-      date_trunc('month', order_datetime) as month,
-      sum(sales) as sales_usd,
-      category
-  from needful_things.orders
-  where category like '${inputs.category.value}'
-  and date_part('year', order_datetime) like '${inputs.year.value}'
-  group by all
-  order by sales_usd desc
+```sql concert_songs_ranking
+  select
+      曲名 as song_title,
+      収録回数 as dvd_record_count,
+      タイプ as release_type
+  from arashi_songs.arashi_songs_20241103_0639
+  where release_type in ${inputs.release_type_concert.value}
+  order by dvd_record_count desc
+  limit 20
 ```
 
 <BarChart
-    data={orders_by_category}
-    title="Sales by Month, {inputs.category.label}"
-    x=month
-    y=sales_usd
-    series=category
+  data={concert_songs_ranking}
+  x=song_title
+  y=dvd_record_count
+  series=release_type
+  swapXY=true
+  yFmt=num0
+  legend=false
 />
 
-## What's Next?
-- [Connect your data sources](settings)
-- Edit/add markdown files in the `pages` folder
-- Deploy your project with [Evidence Cloud](https://evidence.dev/cloud)
+## Play count Top 20
 
-## Get Support
-- Message us on [Slack](https://slack.evidence.dev/)
-- Read the [Docs](https://docs.evidence.dev/)
-- Open an issue on [Github](https://github.com/evidence-dev/evidence)
+<Dropdown 
+  name=release_type
+  multiple=true
+  selectAllByDefault=true
+>
+    <DropdownOption valueLabel="Single" value="シングル" />
+    <DropdownOption valueLabel="C/W" value="カップリング" />
+    <DropdownOption valueLabel="Album" value="アルバム" />
+</Dropdown>
+
+```sql play_count_ranking
+  select
+      曲名 as song_title,
+      再生回数 as play_count,
+      タイプ as release_type
+  from arashi_songs.arashi_songs_20241103_0639
+  where release_type in ${inputs.release_type.value}
+  order by play_count desc
+  limit 20
+```
+
+<BarChart
+  data={play_count_ranking}
+  x=song_title
+  y=play_count
+  series=release_type
+  swapXY=true
+  yFmt=num0
+  legend=false
+/>
