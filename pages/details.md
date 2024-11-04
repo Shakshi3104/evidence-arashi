@@ -56,5 +56,13 @@ title: All Songs Details
     release_year in ${inputs.release_year_filter.value}
 ```
 
-<DataTable data={details} rows=all search=true />
+<DataTable data={details} rows=all search=true >
+    <Column id=song_title title="Title" />
+    <Column id=title title="Release" />
+    <Column id=release_year title="Year" />
+    <Column id=play_count title="Play Counts" contentType=bar />
+    <Column id=concert_record_count title="Live DVD Counts" contentType=bar />
+    <Column id=remarks title="Remarks" />
+    <Column id=songwriter title="Songwriters" />
+</DataTable>
 
