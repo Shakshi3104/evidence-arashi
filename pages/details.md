@@ -10,16 +10,6 @@ title: All Songs Details
   order by release_year
 ```
 
-<Dropdown
-    name=release_year_filter
-    title="Release Year"
-    data={release_year}
-    value=release_year
-    multiple=true
-    selectAllByDefault=true
->
-</Dropdown>
-
 <Dropdown 
   name=release_type_details
   title="Release Type"
@@ -31,14 +21,32 @@ title: All Songs Details
     <DropdownOption valueLabel="Album" value="アルバム" />
 </Dropdown>
 
+<Dropdown
+    name=release_year_filter
+    title="Release Year"
+    data={release_year}
+    value=release_year
+    multiple=true
+    selectAllByDefault=true
+>
+</Dropdown>
 
-<!--
-<TextInput
-    name=songwriter_name
-    title="Songwriter Search (Not Working)"
-    placeholder="Songwriter name"
-/>
--->
+<Details title='Songwriter Option'>
+
+  Options for finding songs with written by ARASHI members.
+
+    <ButtonGroup 
+        name=songwriter_arashi_options 
+    >
+        <ButtonGroupItem valueLabel="All" value="%" default />
+        <ButtonGroupItem valueLabel="櫻井翔" value="櫻井翔" />
+        <ButtonGroupItem valueLabel="二宮和也" value="二宮和也" />
+        <ButtonGroupItem valueLabel="嵐" value="嵐" />
+    </ButtonGroup>
+
+</Details>
+
+
 
 
 ```sql details
@@ -49,11 +57,19 @@ title: All Songs Details
       再生回数 as play_count,
       収録回数 as concert_record_count,
       タイアップ、備考 as remarks,
-      クレジット as songwriter
+      クレジット as songwriter,
+
+      replace(replace(クレジット, 'SHOW', '櫻井翔'), 'Sho Sakurai', '櫻井翔') as songwriter_search
+
   from arashi_songs.arashi_songs_20241103_0639
+
   where 
     タイプ in ${inputs.release_type_details.value} and
-    release_year in ${inputs.release_year_filter.value}
+    release_year in ${inputs.release_year_filter.value} and
+    songwriter_search like '%${inputs.songwriter_arashi_options}%'
+
+  order by
+    column0
 ```
 
 <DataTable data={details} rows=all search=true >
