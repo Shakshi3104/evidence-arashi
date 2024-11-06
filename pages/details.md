@@ -31,20 +31,18 @@ title: All Songs Details
 >
 </Dropdown>
 
-<Details title='Songwriter Option'>
 
-  Options for finding songs with written by ARASHI members.
+Options for finding songs with written by ARASHI members.
 
-    <ButtonGroup 
-        name=songwriter_arashi_options 
-    >
-        <ButtonGroupItem valueLabel="All" value="%" default />
-        <ButtonGroupItem valueLabel="櫻井翔" value="櫻井翔" />
-        <ButtonGroupItem valueLabel="二宮和也" value="二宮和也" />
-        <ButtonGroupItem valueLabel="嵐" value="嵐" />
-    </ButtonGroup>
+<ButtonGroup 
+    name=songwriter_arashi_options 
+>
+    <ButtonGroupItem valueLabel="All" value="%" default />
+    <ButtonGroupItem valueLabel="櫻井翔" value="櫻井翔" />
+    <ButtonGroupItem valueLabel="二宮和也" value="二宮和也" />
+    <ButtonGroupItem valueLabel="嵐" value="嵐" />
+</ButtonGroup>
 
-</Details>
 
 
 
@@ -75,7 +73,7 @@ title: All Songs Details
 <DataTable data={details} rows=all search=true >
     <Column id=song_title title="Title" />
     <Column id=title title="Release" />
-    <Column id=release_year title="Year" />
+    <Column id=release_year title="Year" fmt=id />
     <Column id=play_count title="Play Counts" contentType=bar />
     <Column id=concert_record_count title="Live DVD Counts" contentType=bar />
     <Column id=remarks title="Remarks" />
