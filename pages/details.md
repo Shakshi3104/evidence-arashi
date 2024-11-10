@@ -50,8 +50,9 @@ Options for finding songs with written by ARASHI members.
 ```sql details
   select
       曲名 as song_title,
-      SPLIT_PART(収録CD, ' | ', 1) as title,
+      リリースタイトル as title,
       リリース年 as release_year,
+      リリース日 as release_date,
       再生回数 as play_count,
       収録回数 as concert_record_count,
       タイアップ、備考 as remarks,
@@ -59,21 +60,23 @@ Options for finding songs with written by ARASHI members.
 
       replace(replace(クレジット, 'SHOW', '櫻井翔'), 'Sho Sakurai', '櫻井翔') as songwriter_search
 
-  from arashi_songs.arashi_songs
+  from arashi_songs.arashi_songs as songs
+  left join arashi_songs.all_releases as releases
+    on SPLIT_PART(songs.収録CD, ' | ', 1) = releases.リリースタイトル
 
   where 
-    タイプ in ${inputs.release_type_details.value} and
+    songs.タイプ in ${inputs.release_type_details.value} and
     release_year in ${inputs.release_year_filter.value} and
     songwriter_search like '%${inputs.songwriter_arashi_options}%'
 
   order by
-    column0
+    column0, release_date
 ```
 
 <DataTable data={details} rows=all search=true >
     <Column id=song_title title="Title" />
     <Column id=title title="Release" />
-    <Column id=release_year title="Year" fmt=id />
+    <Column id=release_date title="Release Day" />
     <Column id=play_count title="Play Counts" contentType=bar />
     <Column id=concert_record_count title="Live DVD Counts" contentType=bar />
     <Column id=remarks title="Remarks" />
