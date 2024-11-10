@@ -5,7 +5,7 @@ title: All Songs Details
 ```sql release_year
   select
       リリース年 as release_year
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   group by release_year
   order by release_year
 ```
@@ -59,7 +59,7 @@ Options for finding songs with written by ARASHI members.
 
       replace(replace(クレジット, 'SHOW', '櫻井翔'), 'Sho Sakurai', '櫻井翔') as songwriter_search
 
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
 
   where 
     タイプ in ${inputs.release_type_details.value} and

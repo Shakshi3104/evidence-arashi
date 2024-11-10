@@ -10,35 +10,35 @@ title: ARASHI Songs
 ```sql songs_summary
   select
       COUNT(曲名) as song_count
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
 ```
 
 ```sql songs_type_summary
   select
       COUNT(曲名) as song_count,
       タイプ as release_type
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   group by release_type
 ```
 
 ```sql play_count_summary
   select
       SUM(再生回数) as play_count
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
 ```
 
 ```sql play_count_type_summary
   select
       SUM(再生回数) as song_count,
       タイプ as release_type
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   group by release_type
 ```
 
 ```sql rap_songs_summary
   select
       COUNT(曲名) as song_count
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   where
     クレジット like '%SHOW%' or 
     クレジット like '%櫻井翔%' or 
@@ -49,7 +49,7 @@ title: ARASHI Songs
   select
       COUNT(曲名) as song_count,
       タイプ as release_type
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   where
     クレジット like '%SHOW%' or 
     クレジット like '%櫻井翔%' or 
@@ -102,7 +102,7 @@ Single: <Value data={play_count_type_summary} column=song_count row=2 fmt=num0 /
       曲名 as song_title,
       収録回数 as dvd_record_count,
       タイプ as release_type
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   where release_type in ${inputs.release_type_concert.value}
   order by dvd_record_count desc
   limit 20
@@ -136,7 +136,7 @@ Single: <Value data={play_count_type_summary} column=song_count row=2 fmt=num0 /
       曲名 as song_title,
       再生回数 as play_count,
       タイプ as release_type
-  from arashi_songs.arashi_songs_20241103_0639
+  from arashi_songs.arashi_songs
   where release_type in ${inputs.release_type.value}
   order by play_count desc
   limit 20
