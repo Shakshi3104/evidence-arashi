@@ -62,12 +62,12 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{}\n({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{}\n({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by リリース日
 ```
 
@@ -75,13 +75,13 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{}\n({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{}\n({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
     and タイプ like '%シングル%'
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by リリース日
 ```
 
@@ -89,13 +89,13 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{}\n({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{}\n({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
     and タイプ like '%アルバム%'
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by リリース日
 ```
 
@@ -103,13 +103,13 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{}\n({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{}\n({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
     and (タイプ like '%DVD%' or タイプ like '%Blu-ray%')
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by リリース日
 ```
 
@@ -134,12 +134,12 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{} ({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{} ({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by sales_count desc
   limit 10
 ```
@@ -148,13 +148,13 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{} ({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{} ({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
     and タイプ like '%シングル%'
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by sales_count desc
   limit 10
 ```
@@ -163,13 +163,13 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{} ({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{} ({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
     and タイプ like '%アルバム%'
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by sales_count desc
   limit 10
 ```
@@ -178,13 +178,13 @@ title: Sales
   select
     リリースタイトル as title,
     リリース日 as release_day,
-    format('{} ({})', title, strftime(release_day, '%Y/%m/%d')) as title_release_day,
+    format('{} ({})', ifnull(略称, title), strftime(release_day, '%Y/%m/%d')) as title_release_day,
     SUM(売上枚数) as sales_count
 
   from arashi_songs.all_releases
   where 売上枚数 is not NULL
     and (タイプ like '%DVD%' or タイプ like '%Blu-ray%')
-  group by リリースタイトル, リリース日
+  group by リリースタイトル, 略称, リリース日
   order by sales_count desc
   limit 10
 ```
@@ -263,5 +263,5 @@ title: Sales
     <Column id=release_day title="Release" />
     <Column id=release_type title="Type" />
     <Column id=product_id title="Product ID" />
-    <Column id=sales_count title="Sales" contentType=bar />
+    <Column id=sales_count title="Sales" contentType=bar fmt=num0/>
 </DataTable>
