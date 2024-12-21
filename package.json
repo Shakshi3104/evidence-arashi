@@ -1,6 +1,6 @@
 {
   "name": "evidence-arashi-songs",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "scripts": {
     "build": "evidence build",
     "build:strict": "evidence build:strict",
@@ -17,11 +17,11 @@
   "dependencies": {
     "@evidence-dev/bigquery": "^2.0.8",
     "@evidence-dev/connector-gsheets": "^1.1.0",
-    "@evidence-dev/core-components": "^4.8.10",
+    "@evidence-dev/core-components": "^5.0.3",
     "@evidence-dev/csv": "^1.0.12",
     "@evidence-dev/databricks": "^1.0.7",
     "@evidence-dev/duckdb": "^1.0.11",
-    "@evidence-dev/evidence": "^40.x",
+    "@evidence-dev/evidence": "^40.0.3",
     "@evidence-dev/motherduck": "^1.0.2",
     "@evidence-dev/mssql": "^1.1.0",
     "@evidence-dev/mysql": "^1.1.3",
